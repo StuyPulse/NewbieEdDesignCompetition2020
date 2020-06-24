@@ -7,11 +7,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.*;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import com.stuypulse.stuylib.input.Gamepad;
+import com.stuypulse.stuylib.input.gamepads.PS4;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -20,19 +22,21 @@ import edu.wpi.first.wpilibj2.command.Command;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
 
-  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+  private final Gamepad driver = new PS4(0);
   private final Intake intake = new Intake();
-
+  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    intake.setDefaultCommand(new IntakeCommand(intake));
+
     // Configure the button bindings
     configureButtonBindings();
   }
+  //OwO
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -41,6 +45,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    driver.getLeftButton().whenPressed(new IntakeExtendCommand(intake));
+    driver.getRightButton().whenPressed(new IntakeRetractCommand(intake));
   }
 
 
@@ -51,7 +57,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 
   public Intake getIntake() {
@@ -59,3 +65,4 @@ public class RobotContainer {
   }
 
 }
+//hello dere
